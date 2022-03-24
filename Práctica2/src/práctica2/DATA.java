@@ -9,27 +9,27 @@ package práctica2;
  * @author marco
  */
 public class DATA {
-    private String CATEGORIA;   
- private String CANTIDAD;
+ private String CATO;   
+ private String CANTI;
 
-    public DATA(String CATEGORIA, String CANTIDAD) {
-        this.CATEGORIA = CATEGORIA;
-        this.CANTIDAD = CANTIDAD;
+    public DATA(String CATO, String CANTI) {
+        this.CATO = CATO;
+        this.CANTI = CANTI;
     }
 
-    public String getCATEGORIA() {
-        return CATEGORIA;
+    public String getCATO() {
+        return CATO;
     }
 
-    public void setCATEGORIA(String CATEGORIA) {
-        this.CATEGORIA = CATEGORIA;
+    public void setCATO(String CATO) {
+        this.CATO = CATO;
     }
 
-    public String getCANTIDAD() {
-        return CANTIDAD;
+    public String getCANTI() {
+        return CANTI;
     }
 
-    public void setCANTIDAD(String CANTIDAD) {
-        this.CANTIDAD = CANTIDAD;
+    public void setCANTI(String CANTI) {
+        this.CANTI = CANTI;
 }
 }

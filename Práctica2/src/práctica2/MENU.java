@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.PrintWriter;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -24,10 +25,10 @@ import org.jfree.data.category.DefaultCategoryDataset;
  * @author marco
  */
 public class MENU extends javax.swing.JFrame {
-static int CONT1=0,CONTDATOS=0; 
-static DATA DATOSGRA[]=new DATA[1];
-static DATA AUX[]=new DATA[1];
-static String title;
+static int CONT1=0,CONTI=0; 
+static DATA DAG[]=new DATA[1];
+static DATA AX[]=new DATA[1];
+static String titulo;
 static  ChartPanel pan;
     
 
@@ -37,6 +38,7 @@ static  ChartPanel pan;
         buttonGroup1.add(Down);
         buttonGroup2.add(Shell);
         buttonGroup2.add(Bub);
+
     }
 
     /**
@@ -62,6 +64,7 @@ static  ChartPanel pan;
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -112,6 +115,11 @@ static  ChartPanel pan;
         buttonGroup2.add(Shell);
         Shell.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         Shell.setText("Shell Sort");
+        Shell.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ShellActionPerformed(evt);
+            }
+        });
         getContentPane().add(Shell, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 230, 90, -1));
 
         jButton3.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
@@ -158,7 +166,7 @@ static  ChartPanel pan;
             .addGap(0, 55, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 370, 199, -1));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 330, 199, -1));
 
         jButton4.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jButton4.setText("Cerrar");
@@ -168,6 +176,15 @@ static  ChartPanel pan;
             }
         });
         getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 350, -1, -1));
+
+        jButton5.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
+        jButton5.setText("Reporte");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 280, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -186,37 +203,37 @@ static  ChartPanel pan;
     }//GEN-LAST:event_UpActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String RUTALEER=jTextField1.getText().trim();
+        String LEER=jTextField1.getText().trim();
          
          if (jTextField2.getText().equals("")) {
-             JOptionPane.showMessageDialog(null, "Debe llenar todos los Campos");
+             JOptionPane.showMessageDialog(null, "Llene todos los Campos");
          } else {
            try {
                     
-                    FileReader fr=new FileReader(RUTALEER);
-                    BufferedReader br=new BufferedReader(fr);
+                    FileReader lec=new FileReader(LEER);
+                    BufferedReader tor=new BufferedReader(lec);
                     
-                    String linea;
-                    while ((linea=br.readLine())!= null) {
+                    String line;
+                    while ((line=tor.readLine())!= null) {
                        CONT1++;  
                     }
                     
-                    System.out.println("el contador es :"+CONT1);
-                    DATOSGRA=new DATA[CONT1];
-                    AUX=new DATA[CONT1];
-                    System.out.println("se seteo el tamaño "+DATOSGRA.length);
+                    System.out.println("CANTIDAD DE DATOS :"+CONT1);
+                    DAG=new DATA[CONT1];
+                    AX=new DATA[CONT1];
+                    System.out.println("TAMAÑO DE SETEO: "+DAG.length);
                     
-                    FileReader LR=new FileReader(RUTALEER);
-                   BufferedReader bF=new BufferedReader(LR);
+                    FileReader LEC =new FileReader(LEER);
+                   BufferedReader BUF=new BufferedReader(LEC);
                    
-                   String linea2;
-                    while ((linea2=bF.readLine())!= null) {
-                       String [] datos2=linea2.split(",");
+                   String line2;
+                    while ((line2=BUF.readLine())!= null) {
+                       String [] datos2=line2.split(",");
                        String CATEGO=datos2[0];
                        String CANTI=datos2[1];
-                      DATOSGRA[CONTDATOS]=new DATA(CATEGO, CANTI);
-                      AUX[CONTDATOS]=new DATA(CATEGO, CANTI);
-                       CONTDATOS++;         
+                      DAG[CONTI]=new DATA(CATEGO, CANTI);
+                      AX[CONTI]=new DATA(CATEGO, CANTI);
+                       CONTI++;         
                       
                     }
         
@@ -224,37 +241,36 @@ static  ChartPanel pan;
                   e2.getStackTrace();
                 }
                 
-                 for (int i = 0; i <DATOSGRA.length-1; i++) {
-                        System.out.println("CATEGORIA:"+ DATOSGRA[i].getCATEGORIA());
-                        System.out.println("CANTIDAD:"+ DATOSGRA[i].getCANTIDAD());
-                        System.out.println("************************************");
+                 for (int i = 0; i <DAG.length-1; i++) {
+                        System.out.println("PAÍS:"+ DAG[i].getCATO());
+                        System.out.println("CANTIDAD:"+ DAG[i].getCANTI());
+                        System.out.println("----------");
                     }
-                 System.out.println("el segundo contador es: "+CONTDATOS);
-  //BUB();
-   JFreeChart barras=null;
+                 System.out.println("TAMAÑO: "+CONTI);
+   JFreeChart filas=null;
         DefaultCategoryDataset datos=new DefaultCategoryDataset();
-       String Y =DATOSGRA[0].getCANTIDAD();
-       String X =DATOSGRA[0].getCATEGORIA();
-        title=jTextField2.getText();
-        for (int i = 1; i < DATOSGRA.length-1; i++) {
-        float cantidad=Float.parseFloat(DATOSGRA[i].getCANTIDAD());
-        String categoria=DATOSGRA[i].getCATEGORIA();
-        datos.addValue(cantidad, "", categoria);
+       String Y =DAG[0].getCANTI();
+       String X =DAG[0].getCATO();
+        titulo=jTextField2.getText();
+        for (int i = 1; i < DAG.length-1; i++) {
+        float can=Float.parseFloat(DAG[i].getCANTI());
+        String cate=DAG[i].getCATO();
+        datos.addValue(can, "", cate);
     }
       
-       barras=ChartFactory.createBarChart(title, X, Y, datos, PlotOrientation.VERTICAL, true,true,false);
-      
-       ChartPanel panel = new ChartPanel(barras);
-       panel.setPreferredSize(new Dimension(400,200));
+       filas=ChartFactory.createBarChart3D(titulo, X, Y, datos, PlotOrientation.VERTICAL, true,true,false);
+       
+       ChartPanel panel = new ChartPanel(filas);
+       panel.setPreferredSize(new Dimension(350,150));
        jPanel1.setLayout(new BorderLayout());
        jPanel1.add(panel,BorderLayout.NORTH);
                 pack();
                 repaint();
        try {
-            BufferedImage imagen4 = new BufferedImage(jPanel1.getWidth(), jPanel1.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            BufferedImage imagen = new BufferedImage(jPanel1.getWidth(), jPanel1.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
-            jPanel1.paint(imagen4.getGraphics());
-            ImageIO.write(imagen4, "png", new File("inicial.png"));
+            jPanel1.paint(imagen.getGraphics());
+            ImageIO.write(imagen, "png", new File("Desordenada.png"));
         } catch (Exception e) {
         }
          }
@@ -265,155 +281,87 @@ static  ChartPanel pan;
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         if(Up.isSelected() && Bub.isSelected()){
-            String auxCAT;
-String auxCANT;
-        //APLICANDO EL ORDENAMIENTO BURBUJA
-        for (int i = 1; i < (CONTDATOS - 1); i++) {
-            for (int j = 1; j < (CONTDATOS - 1); j++) {
-                float num1=Float.parseFloat(DATOSGRA[j].getCANTIDAD());
-                float num2=Float.parseFloat(DATOSGRA[j + 1].getCANTIDAD());
+            String xxx;
+            String yyy;
+        
+        for (int i = 1; i < (CONTI - 1); i++) {
+            for (int j = 1; j < (CONTI - 1); j++) {
+                float num1=Float.parseFloat(DAG[j].getCANTI());
+                float num2=Float.parseFloat(DAG[j + 1].getCANTI());
                 if (num1 > num2) {
-                    //OBTENIENDO VALORES Y GUARDANDOLOS
-                    auxCANT = DATOSGRA[j].getCANTIDAD();
-                    auxCAT = DATOSGRA[j].getCATEGORIA();
-                    
-                    //SETEANDO LA POSICION ACTUAL EL VALOR  DE LA POSICION SIGUIENTE
-                    
-                    DATOSGRA[j].setCANTIDAD(DATOSGRA[j + 1].getCANTIDAD());
-                    DATOSGRA[j].setCATEGORIA(DATOSGRA[j + 1].getCATEGORIA());
+                    yyy = DAG[j].getCANTI();
+                    xxx = DAG[j].getCATO();
                    
-                    
-                    //SETEANDO LA POSICION SIGUIENTE CON LA POSICION ACTUAL
-                    DATOSGRA[j + 1].setCANTIDAD(auxCANT);
-                    DATOSGRA[j + 1].setCATEGORIA(auxCAT);
+                    DAG[j].setCANTI(DAG[j + 1].getCANTI());
+                    DAG[j].setCATO(DAG[j + 1].getCATO());
+                   
+                    DAG[j + 1].setCANTI(yyy);
+                    DAG[j + 1].setCATO(xxx);
                    
                 }
             }
         }
  System.out.println("DATOS ORDENADOS POR CANTIDAD: ");
-        System.out.println("************************************");
-        for (int i =0; i<CONTDATOS; i++) {
-            System.out.println(" CANTIDAD: " + DATOSGRA[i].getCANTIDAD());
-            System.out.println(" CATEGORIA: " + DATOSGRA[i].getCATEGORIA());
+        System.out.println("----------");
+        for (int i =0; i<CONTI; i++) {
+            System.out.println(" CANTIDAD: " + DAG[i].getCANTI());
+            System.out.println(" PAÍS: " + DAG[i].getCATO());
            
-            System.out.println("************************************");
+            System.out.println("----------");
         }
-        //BUB();
-   JFreeChart barras=null;
+   JFreeChart filas=null;
         DefaultCategoryDataset datos=new DefaultCategoryDataset();
-       String Y =DATOSGRA[0].getCANTIDAD();
-       String X =DATOSGRA[0].getCATEGORIA();
-        title=jTextField2.getText();
-        for (int i = 1; i < DATOSGRA.length-1; i++) {
-        float cantidad=Float.parseFloat(DATOSGRA[i].getCANTIDAD());
-        String categoria=DATOSGRA[i].getCATEGORIA();
-        datos.addValue(cantidad, "", categoria);
+       String Y =DAG[0].getCANTI();
+       String X =DAG[0].getCATO();
+        titulo=jTextField2.getText();
+        for (int i = 1; i < DAG.length-1; i++) {
+        float can=Float.parseFloat(DAG[i].getCANTI());
+        String cate=DAG[i].getCATO();
+        datos.addValue(can, "", cate);
     }
       
-       barras=ChartFactory.createBarChart(title, X, Y, datos, PlotOrientation.VERTICAL, true,true,false);
-      
-       ChartPanel panel = new ChartPanel(barras);
-       panel.setPreferredSize(new Dimension(400,200));
+       filas=ChartFactory.createBarChart3D(titulo, X, Y, datos, PlotOrientation.VERTICAL, true,true,false);
+       
+       ChartPanel panel = new ChartPanel(filas);
+       panel.setPreferredSize(new Dimension(350,150));
        jPanel2.setLayout(new BorderLayout());
        jPanel2.add(panel,BorderLayout.NORTH);
                 pack();
-                repaint();
+                repaint(2);
        try {
-            BufferedImage imagen4 = new BufferedImage(jPanel2.getWidth(), jPanel2.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            BufferedImage imagen = new BufferedImage(jPanel2.getWidth(), jPanel2.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
-            jPanel2.paint(imagen4.getGraphics());
-            ImageIO.write(imagen4, "png", new File("final.png"));
-        } catch (Exception e) {
-        }
-        }
-        else if (Down.isSelected() && Bub.isSelected()){
-             String auxCAT;
-String auxCANT;
-        //APLICANDO EL ORDENAMIENTO BURBUJA
-        for (int i = 1; i < (CONTDATOS - 1); i++) {
-            for (int j = 1; j < (CONTDATOS - 1); j++) {
-                float num1=Float.parseFloat(DATOSGRA[j].getCANTIDAD());
-                float num2=Float.parseFloat(DATOSGRA[j + 1].getCANTIDAD());
-                if (num1 < num2) {
-                    //OBTENIENDO VALORES Y GUARDANDOLOS
-                    auxCANT = DATOSGRA[j].getCANTIDAD();
-                    auxCAT = DATOSGRA[j].getCATEGORIA();
-                    
-                    //SETEANDO LA POSICION ACTUAL EL VALOR  DE LA POSICION SIGUIENTE
-                    
-                    DATOSGRA[j].setCANTIDAD(DATOSGRA[j + 1].getCANTIDAD());
-                    DATOSGRA[j].setCATEGORIA(DATOSGRA[j + 1].getCATEGORIA());
-                   
-                    
-                    //SETEANDO LA POSICION SIGUIENTE CON LA POSICION ACTUAL
-                    DATOSGRA[j + 1].setCANTIDAD(auxCANT);
-                    DATOSGRA[j + 1].setCATEGORIA(auxCAT);
-                   
-                }
-            }
-        }
- System.out.println("DATOS ORDENADOS POR CANTIDAD: ");
-        System.out.println("************************************");
-        for (int i =0; i<CONTDATOS; i++) {
-            System.out.println(" CANTIDAD: " + DATOSGRA[i].getCANTIDAD());
-            System.out.println(" CATEGORIA: " + DATOSGRA[i].getCATEGORIA());
-           
-            System.out.println("************************************");
-        }
-        //BUB();
-   JFreeChart barras=null;
-        DefaultCategoryDataset datos=new DefaultCategoryDataset();
-       String Y =DATOSGRA[0].getCANTIDAD();
-       String X =DATOSGRA[0].getCATEGORIA();
-        title=jTextField2.getText();
-        for (int i = 1; i < DATOSGRA.length-1; i++) {
-        float cantidad=Float.parseFloat(DATOSGRA[i].getCANTIDAD());
-        String categoria=DATOSGRA[i].getCATEGORIA();
-        datos.addValue(cantidad, "", categoria);
-    }
-      
-       barras=ChartFactory.createBarChart(title, X, Y, datos, PlotOrientation.VERTICAL, true,true,false);
-      
-       ChartPanel panel = new ChartPanel(barras);
-       panel.setPreferredSize(new Dimension(400,200));
-       jPanel2.setLayout(new BorderLayout());
-       jPanel2.add(panel,BorderLayout.NORTH);
-                pack();
-                repaint();
-       try {
-            BufferedImage imagen4 = new BufferedImage(jPanel2.getWidth(), jPanel2.getHeight(), BufferedImage.TYPE_INT_ARGB);
-
-            jPanel2.paint(imagen4.getGraphics());
-            ImageIO.write(imagen4, "png", new File("final.png"));
+            jPanel2.paint(imagen.getGraphics());
+            ImageIO.write(imagen, "png", new File("Ordenada.png"));
         } catch (Exception e) {
         }
         }
         else if(Up.isSelected() && Shell.isSelected()){
             int salto, j, k;
-            float auxcant, auxcant2;
-            String AUXCANT;
-            String AUXCAT;
+            float aaa, eee;
+            String yyy;
+            String xxx;
 
-            salto = ((CONTDATOS - 1) / 2);
+            salto = ((CONTI - 1) / 2);
             while (salto > 0) {
-                for (int i = salto + 1; i < CONTDATOS; i++) {
+                for (int i = salto + 1; i < CONTI; i++) {
                     j = (i - salto);
                     while (j >= 1) {
 
-                        auxcant = Float.parseFloat(DATOSGRA[j].getCANTIDAD());
-                        auxcant2 = Float.parseFloat(DATOSGRA[j + salto].getCANTIDAD());
+                        aaa = Float.parseFloat(DAG[j].getCANTI());
+                        eee = Float.parseFloat(DAG[j + salto].getCANTI());
 
-                        if (auxcant <= auxcant2) {
+                        if (aaa <= eee) {
                             break;
                         } else {
-                            AUXCANT = DATOSGRA[j].getCANTIDAD();
-                            AUXCAT = DATOSGRA[j].getCATEGORIA();
+                            yyy = DAG[j].getCANTI();
+                            xxx = DAG[j].getCATO();
 
-                            DATOSGRA[j].setCANTIDAD(DATOSGRA[j + salto].getCANTIDAD());
-                            DATOSGRA[j].setCATEGORIA(DATOSGRA[j + salto].getCATEGORIA());
+                            DAG[j].setCANTI(DAG[j + salto].getCANTI());
+                            DAG[j].setCATO(DAG[j + salto].getCATO());
 
-                            DATOSGRA[j + salto].setCANTIDAD(AUXCANT);
-                            DATOSGRA[j + salto].setCATEGORIA(AUXCAT);
+                            DAG[j + salto].setCANTI(yyy);
+                            DAG[j + salto].setCATO(xxx);
                             j = j - salto;
                         }
 
@@ -422,67 +370,120 @@ String auxCANT;
                 salto = salto / 2;
             }
 
-            for (int i = 0; i < DATOSGRA.length - 1; i++) {
-                System.out.println(" CANTIDAD: " + DATOSGRA[i].getCANTIDAD());
-                System.out.println(" CATEGORIA: " + DATOSGRA[i].getCATEGORIA());
-                System.out.println("************************************");
-
+            for (int i = 0; i < DAG.length - 1; i++) {
+                System.out.println(" CANTIDAD: " + DAG[i].getCANTI());
+                System.out.println(" PAÍS: " + DAG[i].getCATO());
+                System.out.println("----------");
             }
-             //BUB();
-   JFreeChart barras=null;
+   JFreeChart filas=null;
         DefaultCategoryDataset datos=new DefaultCategoryDataset();
-       String Y =DATOSGRA[0].getCANTIDAD();
-       String X =DATOSGRA[0].getCATEGORIA();
-        title=jTextField2.getText();
-        for (int i = 1; i < DATOSGRA.length-1; i++) {
-        float cantidad=Float.parseFloat(DATOSGRA[i].getCANTIDAD());
-        String categoria=DATOSGRA[i].getCATEGORIA();
-        datos.addValue(cantidad, "", categoria);
+       String Y =DAG[0].getCANTI();
+       String X =DAG[0].getCATO();
+        titulo=jTextField2.getText();
+        for (int i = 1; i < DAG.length-1; i++) {
+        float can=Float.parseFloat(DAG[i].getCANTI());
+        String cate=DAG[i].getCATO();
+        datos.addValue(can, "", cate);
     }
       
-       barras=ChartFactory.createBarChart(title, X, Y, datos, PlotOrientation.VERTICAL, true,true,false);
-      
-       ChartPanel panel = new ChartPanel(barras);
-       panel.setPreferredSize(new Dimension(400,200));
+       filas=ChartFactory.createBarChart3D(titulo, X, Y, datos, PlotOrientation.VERTICAL, true,true,false);
+       
+       ChartPanel panel = new ChartPanel(filas);
+       panel.setPreferredSize(new Dimension(350,150));
        jPanel2.setLayout(new BorderLayout());
        jPanel2.add(panel,BorderLayout.NORTH);
                 pack();
                 repaint();
        try {
-            BufferedImage imagen4 = new BufferedImage(jPanel2.getWidth(), jPanel2.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            BufferedImage imagen = new BufferedImage(jPanel2.getWidth(), jPanel2.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
-            jPanel2.paint(imagen4.getGraphics());
-            ImageIO.write(imagen4, "png", new File("final.png"));
+            jPanel2.paint(imagen.getGraphics());
+            ImageIO.write(imagen, "png", new File("Ordenada.png"));
+        } catch (Exception e) {
+        }
+        }
+        else if (Down.isSelected() && Bub.isSelected()){
+             String xxx;
+String yyy;
+        
+        for (int i = 1; i < (CONTI - 1); i++) {
+            for (int j = 1; j < (CONTI - 1); j++) {
+                float num1=Float.parseFloat(DAG[j].getCANTI());
+                float num2=Float.parseFloat(DAG[j + 1].getCANTI());
+                if (num1 < num2) {
+ 
+                    yyy = DAG[j].getCANTI();
+                    xxx = DAG[j].getCATO();
+                    
+                    DAG[j].setCANTI(DAG[j + 1].getCANTI());
+                    DAG[j].setCATO(DAG[j + 1].getCATO());
+                   
+                    DAG[j + 1].setCANTI(yyy);
+                    DAG[j + 1].setCATO(xxx);
+                }
+            }
+        }
+ System.out.println("DATOS ORDENADOS POR CANTIDAD: ");
+        System.out.println("----------");
+        for (int i =0; i<CONTI; i++) {
+            System.out.println(" CANTIDAD: " + DAG[i].getCANTI());
+            System.out.println(" PAÍS: " + DAG[i].getCATO());
+            System.out.println("----------");
+        }
+   JFreeChart filas=null;
+        DefaultCategoryDataset datos=new DefaultCategoryDataset();
+       String Y =DAG[0].getCANTI();
+       String X =DAG[0].getCATO();
+        titulo=jTextField2.getText();
+        for (int i = 1; i < DAG.length-1; i++) {
+        float can=Float.parseFloat(DAG[i].getCANTI());
+        String cate=DAG[i].getCATO();
+        datos.addValue(can, "", cate);
+    }
+      
+       filas=ChartFactory.createBarChart3D(titulo, X, Y, datos, PlotOrientation.VERTICAL, true,true,false);
+       
+       ChartPanel panel = new ChartPanel(filas);
+       panel.setPreferredSize(new Dimension(350,150));
+       jPanel2.setLayout(new BorderLayout());
+       jPanel2.add(panel,BorderLayout.NORTH);
+                pack();
+                repaint();
+       try {
+            BufferedImage imagen = new BufferedImage(jPanel2.getWidth(), jPanel2.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+            jPanel2.paint(imagen.getGraphics());
+            ImageIO.write(imagen, "png", new File("Ordenada.png"));
         } catch (Exception e) {
         }
         }
         else if(Down.isSelected() && Shell.isSelected()){
             int salto, j;
-            float auxcant, auxcant2;
-            String AUXCANT;
-            String AUXCAT;
+            float aaa, eee;
+            String yyy;
+            String xxx;
 
-            salto = ((CONTDATOS - 1) / 2);
+            salto = ((CONTI - 1) / 2);
             while (salto > 0) {
-                for (int i = salto + 1; i < CONTDATOS; i++) {
+                for (int i = salto + 1; i < CONTI; i++) {
                     j = (i - salto);
                     while (j >= 1) {
 
-                        auxcant = Float.parseFloat(DATOSGRA[j].getCANTIDAD());
-                        auxcant2 = Float.parseFloat(DATOSGRA[j + salto].getCANTIDAD());
+                        aaa = Float.parseFloat(DAG[j].getCANTI());
+                        eee = Float.parseFloat(DAG[j + salto].getCANTI());
 
-                        if (auxcant >= auxcant2) {
+                        if (aaa >= eee) {
                             break;
                         } else {
 
-                            AUXCANT = DATOSGRA[j].getCANTIDAD();
-                            AUXCAT = DATOSGRA[j].getCATEGORIA();
+                            yyy = DAG[j].getCANTI();
+                            xxx = DAG[j].getCATO();
 
-                            DATOSGRA[j].setCANTIDAD(DATOSGRA[j + salto].getCANTIDAD());
-                            DATOSGRA[j].setCATEGORIA(DATOSGRA[j + salto].getCATEGORIA());
+                            DAG[j].setCANTI(DAG[j + salto].getCANTI());
+                            DAG[j].setCATO(DAG[j + salto].getCATO());
 
-                            DATOSGRA[j + salto].setCANTIDAD(AUXCANT);
-                            DATOSGRA[j + salto].setCATEGORIA(AUXCAT);
+                            DAG[j + salto].setCANTI(yyy);
+                            DAG[j + salto].setCATO(xxx);
                             j = j - salto;
                         }
 
@@ -491,37 +492,35 @@ String auxCANT;
                 salto = salto / 2;
             }
 
-            for (int i = 0; i < DATOSGRA.length - 1; i++) {
-                System.out.println(" CANTIDAD: " + DATOSGRA[i].getCANTIDAD());
-                System.out.println(" CATEGORIA: " + DATOSGRA[i].getCATEGORIA());
-                System.out.println("************************************");
+            for (int i = 0; i < DAG.length - 1; i++) {
+                System.out.println(" CANTIDAD: " + DAG[i].getCANTI());
+                System.out.println(" PAÍS: " + DAG[i].getCATO());
+                System.out.println("----------");
 
             }
-            //BUB();
-   JFreeChart barras=null;
+   JFreeChart filas=null;
         DefaultCategoryDataset datos=new DefaultCategoryDataset();
-       String Y =DATOSGRA[0].getCANTIDAD();
-       String X =DATOSGRA[0].getCATEGORIA();
-        title=jTextField2.getText();
-        for (int i = 1; i < DATOSGRA.length-1; i++) {
-        float cantidad=Float.parseFloat(DATOSGRA[i].getCANTIDAD());
-        String categoria=DATOSGRA[i].getCATEGORIA();
-        datos.addValue(cantidad, "", categoria);
+       String Y =DAG[0].getCANTI();
+       String X =DAG[0].getCATO();
+        titulo=jTextField2.getText();
+        for (int i = 1; i < DAG.length-1; i++) {
+        float can=Float.parseFloat(DAG[i].getCANTI());
+        String cate=DAG[i].getCATO();
+        datos.addValue(can, "", cate);
     }
-      
-       barras=ChartFactory.createBarChart(title, X, Y, datos, PlotOrientation.VERTICAL, true,true,false);
-      
-       ChartPanel panel = new ChartPanel(barras);
-       panel.setPreferredSize(new Dimension(400,200));
+       filas=ChartFactory.createBarChart3D(titulo, X, Y, datos, PlotOrientation.VERTICAL, true,true,false);
+       
+       ChartPanel panel = new ChartPanel(filas);
+       panel.setPreferredSize(new Dimension(350,150));
        jPanel2.setLayout(new BorderLayout());
        jPanel2.add(panel,BorderLayout.NORTH);
                 pack();
                 repaint();
        try {
-            BufferedImage imagen4 = new BufferedImage(jPanel2.getWidth(), jPanel2.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            BufferedImage imagen = new BufferedImage(jPanel2.getWidth(), jPanel2.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
-            jPanel2.paint(imagen4.getGraphics());
-            ImageIO.write(imagen4, "png", new File("final.png"));
+            jPanel2.paint(imagen.getGraphics());
+            ImageIO.write(imagen, "png", new File("Ordenada.png"));
         } catch (Exception e) {
         }
         }
@@ -539,6 +538,113 @@ String auxCANT;
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void ShellActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShellActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ShellActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        
+        try {
+            String SKR="";
+            if(Shell.isSelected()){
+            SKR="Shellsort";}
+            else if(Bub.isSelected()){
+            SKR="Bubblesort";
+            }
+            String ruta = "Reporte.html";
+            PrintWriter escritor = new PrintWriter(ruta, "UTF-8");
+            escritor.println("<!DOCTYPE HTML>");
+            escritor.println("<html>");
+            escritor.println("<head>");
+            escritor.println("<meta charset= " + " utf-8 " + " > ");
+            escritor.println("<title>Reporte: datos </title>");
+            escritor.println("</head>");
+            
+            escritor.println("<H1 "+ " align= " + "center" + ">" + "Reporte de datos</H1>");
+            escritor.println("<H2 "+ " align= " + "center" + ">" + " Nombre: Mauricio Antonio Castro Guerra </H2>");
+            escritor.println("<H2 "+ " align= " + "center" + ">" + " Carnet: 202100299 </H2>");
+            escritor.println("<H3>" + " Se está utilizando el método de ordenamiento:"+ SKR +"<H3>");
+            escritor.println("<br>");
+           
+            escritor.println("<hr "+ "align = " + " center" + " size = " + "4" + " width ="+ " 100% " + "color= " +" White" + " noshade>");
+            escritor.println("<br>");
+            escritor.println("<br>");
+            escritor.print("<div "+ "align =" + "center" + ">");
+            escritor.print(" <img " + " src= "+"Desordenada.png" + ">");
+            escritor.print("</div>");
+            escritor.println("<br>");
+
+            escritor.println("<h1 "+ "align = " + " center>"+"Información Desordenada :</h1>");
+            escritor.println("<div style= " + " text-align:center; " + ">");
+            escritor.println("<table border= " + " 2 " + " align= " + "center" + " width= " + " 30% "  + " > ");
+            escritor.println("<thead>");
+            escritor.println("<tr>");
+            escritor.println("<th>País</th>");
+            escritor.println("<th>Cantidad</th>");
+            escritor.println("</tr>");
+            escritor.println("</thead>");
+            escritor.println("<tbody>	");
+
+            for (int i = 0; i < CONTI; i++) {
+                escritor.println("<tr>");
+                String cat = AX[i].getCATO();
+                escritor.println("<td>" + cat + "</td>");
+
+                String can = AX[i].getCANTI();
+                escritor.println("<td>" + can + "</td>");
+
+                escritor.println("</tr>");
+            }
+
+            escritor.println("</tbody>");
+            escritor.println("</table>");
+            escritor.println("</div>");
+
+            escritor.println("<hr "+ "align = " + " center" + " size = " + "4" + " width ="+ " 100% " + "color= " +" White" + " noshade>");
+            escritor.println("<br>");
+
+            escritor.println("<h1 "+ "align = " + " center>"+" Información Ordenada : </h1>");
+            escritor.println("<div style= " + " text-align: center; " + " > ");
+            escritor.println(" <table border= " + "2" + " align= " + "center" +  " width= " + " 30% " + ">");
+            escritor.println("<thead>");
+            escritor.println("<tr>");
+            escritor.println("<th>País</th>");
+            escritor.println("<th>Cantidad</th>");
+            escritor.println("</tr>");
+            escritor.println("</thead>");
+            escritor.println("<tbody>	");
+            for (int i = 0; i < CONTI; i++) {
+                escritor.println("<tr>");
+                String cat = DAG[i].getCATO();
+                escritor.println("<td>" + cat + "</td>");
+
+                String can = DAG[i].getCANTI();
+                escritor.println("<td>" + can + "</td>");
+
+                escritor.println("</tr>");
+            }
+            escritor.println("</tbody>");
+
+            escritor.println("</table>");
+            escritor.println("</div>");
+
+            escritor.println("<br>");
+
+            escritor.println("<br>");
+            escritor.print("<div "+ "align =" + "center" + ">");
+            escritor.print(" <img " + " src= "+"Ordenada.png" + ">");
+            escritor.print("</div>");
+            escritor.println("<br>");
+
+            escritor.println("</body>");
+            escritor.println("</html>");
+            escritor.close();
+            JOptionPane.showMessageDialog(null, "Se creó el reporte");
+        } catch (Exception e2) {
+            e2.getStackTrace();
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -585,6 +691,7 @@ String auxCANT;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     public javax.swing.JTextField jTextField1;
